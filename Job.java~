@@ -79,7 +79,7 @@ public class Job {
     return memRequest;
   }
   
-  public int getTimeRequest() {
+  public int timeRequest() {
     return timeRequest;
   }
   
