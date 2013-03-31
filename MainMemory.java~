@@ -101,6 +101,16 @@ public class MainMemory {
     if(job.getMemRequest() < Memory[segmentNumber].getSize()) {
       if(!Memory[segmentNumber].getInUse()) {
 	Memory[segmentNumber].setMyJob(job);
+	setInUse(segmentNumber, true);
+	
+	//Change the relevant values in the job
+	setMemAssigned(segmentNumber, segmentNumber);
+	setStatus(segmentNumber, "Ready");
+	setTimeRemain(segmentNumber, getTimeRequest(segmentNumber));
+	
+	//Determine wasted space and set it
+	setWastedSpace(segmentNumber, getSize(segmentNumber) - getMemRequest(segmentNumber));
+	
 	return true; //The assignment was successful.
       }
     }
@@ -134,10 +144,66 @@ public class MainMemory {
     }
     
     //There is no available memory
-    else return -1;
+    return -1;
+  }
+  
+  //Tick all jobs in memory
+  public void tick() {
+    for(int i = 0; i < size; i++) {
+      //If the memory is in use
+      if(Memory[i].getInUse()) {
+	//If the memory is "Ready", set it to "Running"
+	if(getStatus(i) == "Ready") {
+	  //Job is "Ready" to begin executing
+	  setStatus(i, "Running");
+	}
+	
+	//If the memory is "Running" (which it now should be if it was "Ready", tick it
+	if(getStatus(i) == "Running") {
+	  setTimeRemain(i, getTimeRemain(i) - 1);
+	  
+	  //If TimeRemain is now < 0, then the job has finished execution.
+	  if(getTimeRemain(i) < 0) {
+	    //Set the relevant values
+	    setTimeRemain(i, 0); //Simply for appearances, to show 0 instead of -1.
+	    setStatus(i, "Finished");
+	    
+	    //Remove it from memory
+	    removeMemory(i);
+	  }
+	}
+      }
+    }
+  }
+  
+  //Remove a job from a memory position
+  public Boolean removeMemory(int segmentNumber) {
+    Memory[segmentNumber].setInUse(false);
+    
+    //Reset the memory location
+    Memory[segmentNumber] = new MemoryModule();
+    
+    return true;
   }
   
   //Setters
+  //For Memory
+  public void setSegmentNumber(int segmentNumber, int changedSegmentNumber) {
+    Memory[segmentNumber].setSegmentNumber(changedSegmentNumber);
+  }
+  
+  public void setSize(int segmentNumber, int size) {
+    Memory[segmentNumber].setSize(size);
+  }
+  
+  public void setInUse(int segmentNumber, Boolean inUse) {
+    Memory[segmentNumber].setInUse(inUse);
+  }
+  
+  public void setWastedSpace(int segmentNumber, int wastedSpace) {
+    Memory[segmentNumber].setWastedSpace(wastedSpace);
+  }
+  
   //For Job
   public void setID(int segmentNumber, int id) {
     (Memory[segmentNumber].getMyJob()).setID(id);
@@ -182,6 +248,29 @@ public class MainMemory {
   }
   
   //For Job
+  public int getID(int segmentNumber) {
+    return (Memory[segmentNumber].getMyJob()).getID();
+  }
+  
+  public int getMemRequest(int segmentNumber) {
+    return (Memory[segmentNumber].getMyJob()).getMemRequest();
+  }
+  
+  public int getTimeRequest(int segmentNumber) {
+    return (Memory[segmentNumber].getMyJob()).getTimeRequest();
+  }
+  
+  public int getMemAssigned(int segmentNumber) {
+    return (Memory[segmentNumber].getMyJob()).getMemAssigned();
+  }
+  
+  public int getTimeRemain(int segmentNumber) {
+    return (Memory[segmentNumber].getMyJob()).getTimeRemain();
+  }
+  
+  public String getStatus(int segmentNumber) {
+    return (Memory[segmentNumber].getMyJob()).getStatus();
+  }
   
   
   /***toString***/

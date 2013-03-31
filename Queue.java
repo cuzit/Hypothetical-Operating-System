@@ -23,7 +23,13 @@ public class Queue {
   }
   
   public int getMemRequest(int segment) {
+    try {
     return jobQueue[segment].getMemRequest();
+    }
+    catch(ArrayIndexOutOfBoundsException e) {
+      System.out.println(toString());
+      return -1;
+    }
   }
   
   
@@ -75,5 +81,36 @@ public class Queue {
   public int getLength() {
     //Return the length of the jobQueue
     return jobQueue.length;
+  }
+  
+  public Boolean getAnyUnassignedJobs() {
+    //Return true if there are any jobs that need to be assigned - false otherwise.
+    for(int i = 0; i < getLength(); i++) {
+      if(getStatus(i) == "Waiting") {
+	return true;
+      }
+    }
+    
+    return false;
+  }
+  
+  public Boolean getAnyUnfinishedJobs() {
+    //Return true if there are any unfinished jobs.
+    for(int i = 0; i < getLength(); i++) {
+      if(getStatus(i) != "Finished") {
+	return true;
+      }
+    }
+    
+    return false;
+  }
+  
+  public String toString() {
+    String temp = "";
+    for(int i = 0; i < getLength(); i++) {
+      temp += "Job " + i + ": " + jobQueue[i].toString() + "\n";
+    }
+    
+    return temp;
   }
 }

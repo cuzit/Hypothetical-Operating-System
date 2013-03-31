@@ -12,14 +12,14 @@
 *simulate an operating system's memory management.*
 ***************************************************/
 
-public class HOS extends Thread {
+public class HOS {
   /***Variables***/
   int casetype;
   Boolean verbose;
   
   Queue jobs;
   MainMemory main;
-  //JobGenerator generator;
+  JobGenerator generator;
   
   /***Constructor***/
   public HOS(int casetype, Boolean verbose) {
@@ -28,7 +28,7 @@ public class HOS extends Thread {
     
     //Construct the hardware
     jobs = new Queue();
-    //generator = new JobGenerator(jobs);
+    generator = new JobGenerator(jobs);
     main = new MainMemory();
     if(verbose == true) {
       System.out.println(jobs.toString());
@@ -39,89 +39,36 @@ public class HOS extends Thread {
     System.out.println("Constructor constructed.");
   }
   
-  /***Run***/
-  public void run() {
-    System.out.println("Tick...");
-    
+  /***Start***/
+  public void start() {
     if(casetype == 1) {
       //Operate casetype 1
-      //First-in, First-out, First-fit allocation policy
-      
-      //Get the first available waiting job
-      int jobToTry = -1;
-      for(int i = 0; i < jobs.getLength(); i++) {
-	if(jobToTry == -1) {
-	  if(jobs.getStatus(i) == "Waiting") {
-	    jobToTry = i;
-	  }
-	}
-      }
-      
-      if(main.memoryAvailable()) {
-	//If there is at least one available position in memory
-	Boolean finished = false;
-	while(!finished) {
-	  Boolean assigned = false;
-	  for(int i = main.firstAvailableMemoryPos(); i < main.size && assigned == false; i++) {
-	    if(!main.getInUse(i)) {
-	      //This memory module is not in use.
-	      if(jobs.getMemRequest(jobToTry) < main.getSize(i)) {
-		//The job can fit in this memory block
-		Boolean success;
-		success = main.assignMemory(i, jobs.getJob(jobToTry));
-		if(success) {
-		  assigned = true;
-		}
-	      }
-	    }
-	  }
-	  
-	  if(assigned == false) {
-	    //If this equals false, then this job did not get assigned - probably
-	    //because there are no available positions in memory it can fit in.
-	    System.out.println("The job couldn't fit anywhere...");
-	    
-	    //Find another job to try...
-	    if(jobToTry + 1 < jobs.getLength()) {
-	      Boolean reassigned = false;
-	      for(int i = jobToTry + 1; i < jobs.getLength(); i++) {
-		if(!reassigned) {
-		  if(jobs.getStatus(i) == "Waiting") {
-		    jobToTry = i;
-		    reassigned = true;
-		  }
-		}
-	      }
-	    }
-	    
-	    else {
-	      System.out.println("None of the waiting memory can fit in any of the currently empty memory slots.");
-	      finished = true;
-	    }
-	  }
-	  
-	  else {
-	    //Everything is happy!
-	    finished = true;
-	  }
-	}
-      }
+      caseOne execute = new caseOne(jobs, main);
+      execute.start();
     }
     
-    else if(casetype == 2) {
+    /*else if(casetype == 2) {
       //Operate casetype 2
-      
+      caseTwo execute = new caseTwo(jobs, main);
+      execute.start();
     }
     
     else if(casetype == 3) {
       //Operate casetype 3
-      
+      caseThree execute = new caseThree(jobs, main);
+      execute.start();
     }
     
     else if(casetype == 4) {
       //Operate casetype 4
+      caseOne executeOne = new caseOne(jobs, main);
+      caseTwo executeTwo = new caseTwo(jobs, main);
+      caseThree executeThree = new caseThree(jobs, main);
       
-    }
+      executeOne.start();
+      executeTwo.start();
+      executeThree.start();
+    }*/
     
     else {
       System.out.println("Something, somewhere, went wrong!");
