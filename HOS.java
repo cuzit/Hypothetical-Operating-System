@@ -44,6 +44,7 @@ public class HOS {
     if(casetype == 1) {
       //Operate casetype 1
       caseOne execute = new caseOne(jobs, main);
+      execute.setVerbose(verbose);
       execute.start();
     }
     

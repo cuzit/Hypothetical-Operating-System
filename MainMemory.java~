@@ -182,6 +182,7 @@ public class MainMemory {
     
     //Reset the memory location
     Memory[segmentNumber] = new MemoryModule();
+    Memory[segmentNumber].setSize(sizeArray[segmentNumber]);
     
     return true;
   }

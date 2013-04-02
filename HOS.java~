@@ -44,19 +44,19 @@ public class HOS {
     if(casetype == 1) {
       //Operate casetype 1
       caseOne execute = new caseOne(jobs, main);
-      caseOne.start();
+      execute.start();
     }
     
     /*else if(casetype == 2) {
       //Operate casetype 2
       caseTwo execute = new caseTwo(jobs, main);
-      caseTwo.start();
+      execute.start();
     }
     
     else if(casetype == 3) {
       //Operate casetype 3
       caseThree execute = new caseThree(jobs, main);
-      caseThree.start();
+      execute.start();
     }
     
     else if(casetype == 4) {

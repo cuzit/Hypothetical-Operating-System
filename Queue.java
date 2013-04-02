@@ -105,12 +105,34 @@ public class Queue {
     return false;
   }
   
-  public String toString() {
+  /*public String simpleString() {
+    
     String temp = "";
     for(int i = 0; i < getLength(); i++) {
       temp += "Job " + i + ": " + jobQueue[i].toString() + "\n";
     }
     
     return temp;
+  }*/
+  
+  public String toString() {
+    String printout = "=========================================================================\n";
+    
+    printout += "Time\tID\tSegment\tMem Request\tTime Remain\tMessages\n";
+    printout += "----\t--\t-------\t-----------\t-----------\t--------\n";
+    
+    for(int i = 0; i < getLength(); i++) {
+      printout += jobQueue[i].getTimeRequest() + "\t";
+      printout += jobQueue[i].getID() + "\t";
+      printout += jobQueue[i].getMemAssigned() + "\t";
+      printout += jobQueue[i].getMemRequest() + "\t\t";
+      printout += jobQueue[i].getTimeRemain() + "\t\t";
+      printout += jobQueue[i].getStatus() + "\n";
+    }
+    
+    printout += "=========================================================================";
+    printout += "\n\n\n";
+    
+    return printout;
   }
 }

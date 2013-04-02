@@ -75,6 +75,8 @@ public class MainMemory {
   int[] sizeArray = {64, 96, 48, 32, 128, 96, 48}; //Add or remove entries
 		  //from this array if you change the variable size.
   int memory = 512; //512MB Memory, in case this is needed
+   int lastProcessed; //This variable is used to keep track of the last Job
+		      //to be used in order to process execution in a round robin fashion
   
   /***Constructor***/
   public MainMemory() {
@@ -149,7 +151,78 @@ public class MainMemory {
   
   //Tick all jobs in memory
   public void tick() {
-    for(int i = 0; i < size; i++) {
+    //Tick, as per the instructions, executes 2 jobs per time slice. Further, it
+    //does this in a round robin fashion. If you wish to change the number of
+    //processors the HOS has (and therefore how many jobs can be executed per
+    //time slice), change the following variable (processors).
+    int processors = 2;
+    Boolean hasTicked = false;
+    int initialProcessed = lastProcessed;
+    int numberProcessed = 0;
+    
+    while(!hasTicked) {
+      if(lastProcessed == size) {
+	lastProcessed = 0; //Reset to 0 if the end of the array has been reached
+      }
+      
+      Boolean success = false;
+      if(Memory[lastProcessed].getInUse()) {
+	//If the memory is in use currently
+	if(getStatus(lastProcessed) == "Ready") {
+	  //If the Job is "Ready", set it to "Running"
+	  setStatus(lastProcessed, "Running");
+	  //This counts as an execution, so move on to the next.
+	  success = true;
+	}
+	
+	else if(getStatus(lastProcessed) == "Running") {
+	  //If the memory is "Running," tick it.
+	  setTimeRemain(lastProcessed, getTimeRemain(lastProcessed) - 1);
+	  
+	  //If TimeRemain is now < 0, then the job has finished execution
+	  if(getTimeRemain(lastProcessed) < 0) {
+	    //Set the relevant values
+	    setTimeRemain(lastProcessed, 0); //Simply for appearances, to show 0 instead of -1.
+	    setStatus(lastProcessed, "Finished");
+	    
+	    //Remove it from memory
+	    removeMemory(lastProcessed);
+	  }
+	  
+	  //Successfully executed a job, so move on to the next.
+	  success = true;
+	}
+      }
+      
+      if(!success) {
+	//If, for any of the above reasons, a Job was not ticked during this round
+	//through the while loop
+	lastProcessed++;
+      }
+      
+      else if(success) {
+	//A job was successfully executed.
+	lastProcessed++;
+	numberProcessed++;
+      }
+      
+      //Has a job been executed per processor?
+      if(numberProcessed >= processors) {
+	hasTicked = true;
+      }
+      
+      //Has the round robin circled through all jobs, but only executed 0 or 1?
+      //Note: This occurrs if the Jobs in memory are, for some reason, ticked
+      //despite having no Jobs, OR if there is fewer Jobs currently in memory
+      //than exist number of processors to execute them all.
+      else if(lastProcessed == initialProcessed) {
+	hasTicked = true;
+      }
+    }
+    
+    
+    
+    /*for(int i = 0; i < size; i++) {
       //If the memory is in use
       if(Memory[i].getInUse()) {
 	//If the memory is "Ready", set it to "Running"
@@ -173,7 +246,7 @@ public class MainMemory {
 	  }
 	}
       }
-    }
+    }*/
   }
   
   //Remove a job from a memory position
