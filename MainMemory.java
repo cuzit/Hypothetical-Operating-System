@@ -219,34 +219,6 @@ public class MainMemory {
 	hasTicked = true;
       }
     }
-    
-    
-    
-    /*for(int i = 0; i < size; i++) {
-      //If the memory is in use
-      if(Memory[i].getInUse()) {
-	//If the memory is "Ready", set it to "Running"
-	if(getStatus(i) == "Ready") {
-	  //Job is "Ready" to begin executing
-	  setStatus(i, "Running");
-	}
-	
-	//If the memory is "Running" (which it now should be if it was "Ready", tick it
-	if(getStatus(i) == "Running") {
-	  setTimeRemain(i, getTimeRemain(i) - 1);
-	  
-	  //If TimeRemain is now < 0, then the job has finished execution.
-	  if(getTimeRemain(i) < 0) {
-	    //Set the relevant values
-	    setTimeRemain(i, 0); //Simply for appearances, to show 0 instead of -1.
-	    setStatus(i, "Finished");
-	    
-	    //Remove it from memory
-	    removeMemory(i);
-	  }
-	}
-      }
-    }*/
   }
   
   //Remove a job from a memory position
@@ -259,6 +231,23 @@ public class MainMemory {
     
     return true;
   }
+  
+  //Return the total amount of wasted memory
+  public int totalWastedMemory() {
+    int total = 0;
+    for(int i = 0; i < size; i++) {
+      if(Memory[i].getInUse()) {
+	//This memory module is being occupied
+	total += getWastedSpace(i);
+      }
+      else {
+	//This memory module is not being occupied
+	total += getSize(i);
+      }
+    }
+    return total;
+  }
+  
   
   //Setters
   //For Memory

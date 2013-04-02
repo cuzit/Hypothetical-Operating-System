@@ -126,12 +126,11 @@ public class Queue {
       printout += jobQueue[i].getID() + "\t";
       printout += jobQueue[i].getMemAssigned() + "\t";
       printout += jobQueue[i].getMemRequest() + "\t\t";
-      printout += jobQueue[i].getTimeRemain() + "\t";
+      printout += jobQueue[i].getTimeRemain() + "\t\t";
       printout += jobQueue[i].getStatus() + "\n";
     }
     
     printout += "=========================================================================";
-    printout += "\n\n\n";
     
     return printout;
   }

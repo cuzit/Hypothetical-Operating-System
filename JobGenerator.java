@@ -20,6 +20,7 @@ public class JobGenerator {
       jobqueue.setTimeRequest(i, timeRequest);
       
       jobqueue.setID(i, i);
+      jobqueue.setTimeRemain(i, timeRequest);
       
       //int memAssigned=(int)(Math.random()*19);
       //jobqueue.setMemRequest(i, memAssigned);

@@ -105,15 +105,27 @@ public class Queue {
     return false;
   }
   
-  /*public String simpleString() {
-    
-    String temp = "";
+ public int numberOfWaitingJobs() {
+    //Return the number of jobs that are waiting.
+    int count = 0;
     for(int i = 0; i < getLength(); i++) {
-      temp += "Job " + i + ": " + jobQueue[i].toString() + "\n";
+      if(getStatus(i) == "Waiting") {
+	count++;
+      }
     }
-    
-    return temp;
-  }*/
+    return count;
+ }
+ 
+ public int numberOfFinishedJobs() {
+    //Return the number of jobs that are finished
+    int count = 0;
+    for(int i = 0; i < getLength(); i++) {
+      if(getStatus(i) == "Finished") {
+	count++;
+      }
+    }
+    return count;
+ }
   
   public String toString() {
     String printout = "=========================================================================\n";
@@ -131,7 +143,6 @@ public class Queue {
     }
     
     printout += "=========================================================================";
-    printout += "\n\n\n";
     
     return printout;
   }
