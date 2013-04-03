@@ -96,14 +96,10 @@ public class caseOne extends Thread {
       
       //Break the while loop if one more tick will be the 30th (max) tick, per the instructions.
       //Comment this out if you wish for the program to execute until ALL jobs reach a "Finished" state.
-      if(tick >= 29) {
+      if(tick >= 30) {
 	caseComplete = true;
       }
     }
-    
-    //Tick once more - this is necessary because the while loop breaks when one or more jobs
-    //may have 0 time remaining, but the Job hasn't Finished yet.
-    tick();
     
     //Now that this case has executed, output the total number of jobs completed.
     System.out.println("Total number of finished jobs: " + jobs.numberOfFinishedJobs());
