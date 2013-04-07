@@ -35,8 +35,6 @@ public class HOS {
       //System.out.println(generator.toString());
       System.out.println(main.toString());
     }
-    
-    System.out.println("Constructor constructed.");
   }
   
   /***Start***/
@@ -45,31 +43,95 @@ public class HOS {
       //Operate casetype 1
       caseOne execute = new caseOne(jobs, main);
       execute.setVerbose(verbose);
-      execute.start();
+      execute.run();
     }
     
-    /*else if(casetype == 2) {
+    else if(casetype == 2) {
       //Operate casetype 2
       caseTwo execute = new caseTwo(jobs, main);
-      execute.start();
+      execute.setVerbose(verbose);
+      execute.run();
     }
     
     else if(casetype == 3) {
       //Operate casetype 3
       caseThree execute = new caseThree(jobs, main);
-      execute.start();
+      execute.setVerbose(verbose);
+      execute.run();
     }
     
     else if(casetype == 4) {
       //Operate casetype 4
-      caseOne executeOne = new caseOne(jobs, main);
-      caseTwo executeTwo = new caseTwo(jobs, main);
-      caseThree executeThree = new caseThree(jobs, main);
+      caseOne executeOne;
+      caseTwo executeTwo;
+      caseThree executeThree;
       
-      executeOne.start();
-      executeTwo.start();
-      executeThree.start();
-    }*/
+      //Make a copy of the original array, so that all three executions share the same input data
+      /*Queue copy = new Queue();
+      for(int i = 0; i < jobs.getLength(); i++) {
+	Job temp = new Job();
+	temp = jobs.getJob(i);
+	copy.setJob(i, temp);
+      }*/
+      Queue copy = jobs;
+      
+      //Start process 1
+      System.out.println("=======================================================");
+      System.out.println("==Case One=============================================");
+      System.out.println("=======================================================");
+      executeOne = new caseOne(jobs, main);
+      executeOne.setVerbose(verbose);
+      executeOne.run();
+      
+      //Start process 2
+      System.out.println("=======================================================");
+      System.out.println("==Case Two=============================================");
+      System.out.println("=======================================================");
+      main = new MainMemory();
+      /*jobs = new Queue();
+      for(int i = 0; i < jobs.getLength(); i++) {
+	Job temp = new Job();
+	temp = copy.getJob(i);
+	jobs.setJob(i, temp);
+      }*/
+      jobs = copy;
+      executeTwo = new caseTwo(jobs, main);
+      executeTwo.setVerbose(verbose);
+      executeTwo.run();
+      
+      //Start process 3
+      System.out.println("=======================================================");
+      System.out.println("==Case Three===========================================");
+      System.out.println("=======================================================");
+      main = new MainMemory();
+      /*jobs = new Queue();
+      for(int i = 0; i < jobs.getLength(); i++) {
+	Job temp = new Job();
+	temp = copy.getJob(i);
+	jobs.setJob(i, temp);
+      }*/
+      jobs = copy;
+      executeThree = new caseThree(jobs, main);
+      executeThree.setVerbose(verbose);
+      executeThree.run();
+      
+      //Compare the number of finished jobs for each case type
+      System.out.println("Case One Finished " + executeOne.numberOfFinishedJobs() + " Jobs.");
+      System.out.println("Case Two Finished " + executeTwo.numberOfFinishedJobs() + " Jobs.");
+      System.out.println("Case Three Finished " + executeThree.numberOfFinishedJobs() + " Jobs.");
+      if(executeOne.numberOfFinishedJobs() > executeTwo.numberOfFinishedJobs() && executeOne.numberOfFinishedJobs() > executeThree.numberOfFinishedJobs()) {
+	System.out.println("Case One completed the most processes.");
+      }
+      else if(executeTwo.numberOfFinishedJobs() > executeOne.numberOfFinishedJobs() && executeTwo.numberOfFinishedJobs() > executeThree.numberOfFinishedJobs()) {
+	System.out.println("Case Two completed the most processes.");
+      }
+      else if(executeThree.numberOfFinishedJobs() > executeOne.numberOfFinishedJobs() && executeThree.numberOfFinishedJobs() > executeTwo.numberOfFinishedJobs()) {
+	System.out.println("Case Three completed the most processes.");
+      }
+      else {
+	System.out.println("There was a tie in the number of completed processes.");
+      }
+    }
     
     else {
       System.out.println("Something, somewhere, went wrong!");

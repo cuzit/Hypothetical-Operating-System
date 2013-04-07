@@ -1,4 +1,4 @@
-public class caseOne extends Thread {
+public class caseOne {
   //Operate casetype 1
   //First-in, First-out, First-fit allocation policy
   Boolean caseComplete = false;
@@ -6,6 +6,7 @@ public class caseOne extends Thread {
   Queue jobs;
   MainMemory main;
   Boolean verbose = false;
+  int numberOfFinishedJobs = 0;
   
   public caseOne(Queue jobs, MainMemory main) {
     this.jobs = jobs;
@@ -102,7 +103,8 @@ public class caseOne extends Thread {
     }
     
     //Now that this case has executed, output the total number of jobs completed.
-    System.out.println("Total number of finished jobs: " + jobs.numberOfFinishedJobs());
+    numberOfFinishedJobs = jobs.numberOfFinishedJobs();
+    System.out.println("Total number of finished jobs: " + numberOfFinishedJobs);
   }
   
   public void tick() {
@@ -119,5 +121,14 @@ public class caseOne extends Thread {
   
   public void setVerbose(Boolean verbose) {
     this.verbose = verbose;
+  }
+  
+  public int numberOfFinishedJobs() {
+    if(tick < 30) {
+      //The case hasn't been run yet... return a null value.
+      return -1;
+    }
+    
+    return numberOfFinishedJobs;
   }
 }

@@ -126,6 +126,29 @@ public class Queue {
     }
     return count;
  }
+ 
+ public Queue shortestJobs() {
+    //Return a copy of this queue object ordered from shortest job to longest job
+    Queue copy = new Queue();
+    
+    //Copy the current Queue into the copy Queue
+    for(int i = 0; i < getLength(); i++) {
+      copy.setJob(i, getJob(i));
+    }
+    
+    for(int i = 0; i < getLength() - 1; i++) {
+      for(int j = 0; j < getLength() - 1 - i; j++) {
+	if(copy.getMemRequest(j) > copy.getMemRequest(j + 1)) {
+	  Job temp = copy.getJob(j);
+	  copy.setJob(j, copy.getJob(j + 1));
+	  copy.setJob(j + 1, temp);
+	}
+      }
+    }
+    
+    //Return the copy of the Queue sorted into SJF order.
+    return copy;
+ }
   
   public String toString() {
     String printout = "=========================================================================\n";
@@ -145,5 +168,25 @@ public class Queue {
     printout += "=========================================================================";
     
     return printout;
+  }
+  
+  public static void main(String args[]) {
+    //Written to test the shortestJobs function
+    Queue first = new Queue();
+    Queue second = new Queue();
+    
+    for(int i = 0; i < first.getLength(); i++) {
+      //Add data to the queue
+      first.setMemRequest(i, (int)(Math.random() * 100));
+      first.setID(i, i);
+      first.setStatus(i, "Waiting");
+      first.setTimeRequest(i, (int)(Math.random() * 10));
+    }
+    
+    System.out.println("First:\n" + first.toString());
+    
+    second = first.shortestJobs();
+    
+    System.out.println("Second:\n" + second.toString());
   }
 }
