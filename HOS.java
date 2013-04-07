@@ -67,13 +67,7 @@ public class HOS {
       caseThree executeThree;
       
       //Make a copy of the original array, so that all three executions share the same input data
-      /*Queue copy = new Queue();
-      for(int i = 0; i < jobs.getLength(); i++) {
-	Job temp = new Job();
-	temp = jobs.getJob(i);
-	copy.setJob(i, temp);
-      }*/
-      Queue copy = jobs;
+      Queue copy = new Queue(jobs);
       
       //Start process 1
       System.out.println("=======================================================");
@@ -88,13 +82,7 @@ public class HOS {
       System.out.println("==Case Two=============================================");
       System.out.println("=======================================================");
       main = new MainMemory();
-      /*jobs = new Queue();
-      for(int i = 0; i < jobs.getLength(); i++) {
-	Job temp = new Job();
-	temp = copy.getJob(i);
-	jobs.setJob(i, temp);
-      }*/
-      jobs = copy;
+      jobs = new Queue(copy);
       executeTwo = new caseTwo(jobs, main);
       executeTwo.setVerbose(verbose);
       executeTwo.run();
@@ -104,18 +92,13 @@ public class HOS {
       System.out.println("==Case Three===========================================");
       System.out.println("=======================================================");
       main = new MainMemory();
-      /*jobs = new Queue();
-      for(int i = 0; i < jobs.getLength(); i++) {
-	Job temp = new Job();
-	temp = copy.getJob(i);
-	jobs.setJob(i, temp);
-      }*/
-      jobs = copy;
+      jobs = new Queue(copy);
       executeThree = new caseThree(jobs, main);
       executeThree.setVerbose(verbose);
       executeThree.run();
       
       //Compare the number of finished jobs for each case type
+      System.out.println("\n\n\n");
       System.out.println("Case One Finished " + executeOne.numberOfFinishedJobs() + " Jobs.");
       System.out.println("Case Two Finished " + executeTwo.numberOfFinishedJobs() + " Jobs.");
       System.out.println("Case Three Finished " + executeThree.numberOfFinishedJobs() + " Jobs.");

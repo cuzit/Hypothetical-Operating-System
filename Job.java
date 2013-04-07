@@ -43,6 +43,15 @@ public class Job {
     this.status = status;
   }
   
+  public Job(Job job) {
+    this.id = job.getID();
+    this.memRequest = job.getMemRequest();
+    this.timeRequest = job.getTimeRequest();
+    this.memAssigned = job.getMemAssigned();
+    this.timeRemain = job.getTimeRemain();
+    this.status = job.getStatus();
+  }
+  
   /***Setters***/
   public void setID(int id) {
     this.id = id;

@@ -8,6 +8,14 @@ public class Queue {
     }
   }
   
+  public Queue(Queue queue) {
+    jobQueue = new Job[20];
+    for(int i = 0; i < queue.getLength(); i++) {
+      Job temp = new Job(queue.getJob(i));
+      setJob(i, temp);
+    }
+  }
+  
   //setters and getters
   public void setID(int segment, int id){
     jobQueue[segment].setID(id);
