@@ -1,6 +1,22 @@
+/**************************************************
+*caseThree                                        *
+***************************************************
+*Matt Silvey                                      *
+*Dan Wang                                         *
+***************************************************
+*CS350                                            *
+*Term Project                                     *
+***************************************************
+*This class executes the HOS with case one's      *
+*policies, which are:                             *
+*	SJFS (Shortest-Job, First-Served) Order   *
+*	Best Fit Allocation Policy                *
+*This class is responsible for the "logic" of the *
+*HOS for this particular case                     *
+***************************************************/
+
 public class caseThree {
-  //Operate casetype 3
-  //Shortest Job First, Best Fit Policy
+  /***Variables***/
   Boolean caseComplete = false;
   int tick = 0;
   Queue jobs;
@@ -9,6 +25,7 @@ public class caseThree {
   Boolean verbose = false;
   int numberOfFinishedJobs = 0;
   
+  /***Constructor***/
   public caseThree(Queue jobs, MainMemory main) {
     this.jobs = jobs;
     this.main = main;
@@ -16,6 +33,7 @@ public class caseThree {
     SJFjobs = jobs.shortestJobs();
   }
   
+  /***Execute the HOS on Case Type 3***/
   public void run() {
     while(!caseComplete) {
       if(verbose) { System.out.println("I'm running!"); }
@@ -74,7 +92,7 @@ public class caseThree {
 		    if(verbose) { System.out.println("A"); }
 		    int[] temp = new int[main.size];
 		    for(int j = 0; j < main.size; j++) {
-		      temp[j] = main.sizeArray[j] - jobs.getMemRequest(jobToAssign);
+		      temp[j] = main.sizeArray[j] - jobs.getMemRequest(j);
 		    }
 		    
 		    if(verbose) { System.out.println("B"); }
@@ -125,6 +143,7 @@ public class caseThree {
     System.out.println("Total number of finished jobs: " + numberOfFinishedJobs);
   }
   
+  /***Tick Function***/
   public void tick() {
     tick++;
     main.tick();
@@ -137,6 +156,7 @@ public class caseThree {
     System.out.println("\n\n\n");
   }
   
+  /***Functions***/
   public void setVerbose(Boolean verbose) {
     this.verbose = verbose;
   }

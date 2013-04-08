@@ -1,74 +1,23 @@
+/**************************************************
+*MainMemory                                       *
+***************************************************
+*Matt Silvey                                      *
+*Dan Wang                                         *
+***************************************************
+*CS350                                            *
+*Term Project                                     *
+***************************************************
+*This class is an array of MemoryModule objects   *
+*It contains functions for setting and retrieving *
+*information related to an individual memory      *
+*position and the memory unit as a whole; further,*
+*it also contains functions for adding and        *
+*removing a Job to a particular memory location,  *
+*as well as a few functions for calculating       *
+*various things                                   *
+***************************************************/
+
 public class MainMemory {
-  /***Classes***/
-  public class MemoryModule {
-    /***Variables***/
-    int segmentNumber;
-    int size; //in kilobytes
-    Boolean inUse;
-    int wastedSpace;
-    Job myJob;
-    
-    /***Constructor***/
-    public MemoryModule() {
-      segmentNumber = -1;
-      size = -1;
-      inUse = false;
-      wastedSpace = -1;
-      myJob = new Job();
-    }
-    
-    public MemoryModule(int segmentNumber, int size, Boolean inUse, int wastedSpace, Job myJob) {
-      this.segmentNumber = segmentNumber;
-      this.size = size;
-      this.inUse = inUse;
-      this.wastedSpace = wastedSpace;
-      this.myJob = myJob;
-    }
-    
-    /***Functions***/
-    //Getters
-    public int getSegmentNumber() {
-      return segmentNumber;
-    }
-    
-    public int getSize() {
-      return size;
-    }
-    
-    public Boolean getInUse() {
-      return inUse;
-    }
-    
-    public int getWastedSpace() {
-      return wastedSpace;
-    }
-    
-    public Job getMyJob() {
-      return myJob;
-    }
-    
-    //Setters
-    public void setSegmentNumber(int segmentNumber) {
-      this.segmentNumber = segmentNumber;
-    }
-    
-    public void setSize(int size) {
-      this.size = size;
-    }
-    
-    public void setInUse(Boolean inUse) {
-      this.inUse = inUse;
-    }
-    
-    public void setWastedSpace(int wastedSpace) {
-      this.wastedSpace = wastedSpace;
-    }
-    
-    public void setMyJob(Job myJob) {
-      this.myJob = myJob;
-    }
-  }
-  
   /***Variables***/
   MemoryModule[] Memory; //The virtual memory
   int size = 7; //Change this value to change the number of MemoryModules
@@ -93,8 +42,6 @@ public class MainMemory {
       Memory[i].setInUse(false);
       Memory[i].setWastedSpace(0);
     }
-    
-    
   }
   
   /***Functions***/
@@ -249,7 +196,7 @@ public class MainMemory {
   }
   
   
-  //Setters
+  /***Setters***/
   //For Memory
   public void setSegmentNumber(int segmentNumber, int changedSegmentNumber) {
     Memory[segmentNumber].setSegmentNumber(changedSegmentNumber);
@@ -292,7 +239,7 @@ public class MainMemory {
     (Memory[segmentNumber].getMyJob()).setStatus(status);
   }
   
-  //Getters
+  /***Getters***/
   //For memory
   public int getSegmentNumber(int segmentNumber) {
     return Memory[segmentNumber].getSegmentNumber();

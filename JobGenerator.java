@@ -1,6 +1,22 @@
+/**************************************************
+*JobGenerator                                     *
+***************************************************
+*Matt Silvey                                      *
+*Dan Wang                                         *
+***************************************************
+*CS350                                            *
+*Term Project                                     *
+***************************************************
+*This class generates the data randomly for all   *
+*Jobs in the given queue, and also assigns values *
+*to their defaults - i.e., the ID number.         *
+***************************************************/
+
 public class JobGenerator {
+  /***Variables***/
   public Queue jobqueue;
   
+  /***Constructor/Execution***/
   public JobGenerator(Queue jobqueue) {
     this.jobqueue = jobqueue;
 
@@ -19,6 +35,7 @@ public class JobGenerator {
       }
       jobqueue.setTimeRequest(i, timeRequest);
       
+      //Set other variables for this Job to their defaults.
       jobqueue.setID(i, i);
       jobqueue.setTimeRemain(i, timeRequest);
     }

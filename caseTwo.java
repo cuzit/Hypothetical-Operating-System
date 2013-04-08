@@ -1,6 +1,22 @@
+/**************************************************
+*caseTwo                                          *
+***************************************************
+*Matt Silvey                                      *
+*Dan Wang                                         *
+***************************************************
+*CS350                                            *
+*Term Project                                     *
+***************************************************
+*This class executes the HOS with case two's      *
+*policies, which are:                             *
+*	FIFS (First-In, First-Served) Order       *
+*	Best Fit Allocation Policy                *
+*This class is responsible for the "logic" of the *
+*HOS for this particular case                     *
+***************************************************/
+
 public class caseTwo {
-  //Operate casetype 2
-  //First-in, First-out, Best-fit allocation policy
+  /***Variables***/
   Boolean caseComplete = false;
   int tick = 0;
   Queue jobs;
@@ -8,11 +24,13 @@ public class caseTwo {
   Boolean verbose = false;
   int numberOfFinishedJobs = 0;
   
+  /***Constructor***/
   public caseTwo(Queue jobs, MainMemory main) {
     this.jobs = jobs;
     this.main = main;
   }
   
+  /***Execute the HOS on Case Two***/
   public void run() {
     while(!caseComplete) {
       if(verbose) { System.out.println("I'm running!"); }
@@ -121,6 +139,7 @@ public class caseTwo {
     System.out.println("Total number of finished jobs: " + numberOfFinishedJobs);
   }
   
+  /***Tick Function***/
   public void tick() {
     tick++;
     main.tick();
@@ -133,6 +152,7 @@ public class caseTwo {
     System.out.println("\n\n\n");
   }
   
+  /***Functions***/
   public void setVerbose(Boolean verbose) {
     this.verbose = verbose;
   }
